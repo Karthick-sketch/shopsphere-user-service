@@ -1,6 +1,8 @@
 package com.shopsphere.userservice.service;
 
+import com.shopsphere.userservice.dto.ShippingDetails;
 import com.shopsphere.userservice.entity.User;
+import com.shopsphere.userservice.exception.UserNotFoundException;
 import com.shopsphere.userservice.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,21 @@ public class UserService {
       );
   }
 
+  public ShippingDetails getShippingAddress(Long authUserId) {
+    User user = userRepository
+      .findByAuthUserId(authUserId)
+      .orElseThrow(() ->
+        new UserNotFoundException(
+          "User not found with authUserId: " + authUserId
+        )
+      );
+    return new ShippingDetails(
+      user.getName(),
+      user.getPhoneNumber(),
+      user.getShippingAddress()
+    );
+  }
+
   public User create(User user) {
     if (userRepository.existsByEmail(user.getEmail())) {
       throw new RuntimeException("Email already in use: " + user.getEmail());
@@ -41,7 +58,8 @@ public class UserService {
     User existing = findById(id);
     existing.setName(updated.getName());
     existing.setEmail(updated.getEmail());
-    existing.setRole(updated.getRole());
+    existing.setPhoneNumber(updated.getPhoneNumber());
+    existing.setShippingAddress(updated.getShippingAddress());
     return userRepository.save(existing);
   }
 

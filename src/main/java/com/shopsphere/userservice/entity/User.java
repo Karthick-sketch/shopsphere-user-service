@@ -1,6 +1,5 @@
 package com.shopsphere.userservice.entity;
 
-import com.shopsphere.userservice.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,11 +24,11 @@ public class User {
   @Column(nullable = false, unique = true)
   private String email;
 
-  @Column(nullable = false)
-  private String password;
+  @Column(unique = true)
+  private String phoneNumber;
 
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
-  @Builder.Default
-  private UserRole role = UserRole.USER;
+  private String shippingAddress;
+
+  @Column(nullable = false, unique = true)
+  private Long authUserId;
 }

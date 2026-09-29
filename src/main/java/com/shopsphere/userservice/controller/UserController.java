@@ -1,5 +1,6 @@
 package com.shopsphere.userservice.controller;
 
+import com.shopsphere.userservice.dto.ShippingDetails;
 import com.shopsphere.userservice.entity.User;
 import com.shopsphere.userservice.service.UserService;
 import java.util.List;
@@ -23,6 +24,13 @@ public class UserController {
   @GetMapping("/{id}")
   public ResponseEntity<User> getById(@PathVariable Long id) {
     return ResponseEntity.ok(userService.findById(id));
+  }
+
+  @GetMapping("/shipping-details/{authUserId}")
+  public ResponseEntity<ShippingDetails> getShippingAddress(
+    @PathVariable Long authUserId
+  ) {
+    return ResponseEntity.ok(userService.getShippingAddress(authUserId));
   }
 
   @PostMapping
