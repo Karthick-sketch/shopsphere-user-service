@@ -40,11 +40,12 @@ public class KafkaConsumerConfig {
     JacksonJsonDeserializer<UserCreatedEvent> valueDeserializer =
       new JacksonJsonDeserializer<>(UserCreatedEvent.class);
     valueDeserializer.addTrustedPackages("*");
+    valueDeserializer.setUseTypeHeaders(false);
 
     return new DefaultKafkaConsumerFactory<>(
       props,
-      new StringDeserializer(),
-      valueDeserializer
+      new ErrorHandlingDeserializer<>(new StringDeserializer()),
+      new ErrorHandlingDeserializer<>(valueDeserializer)
     );
   }
 
