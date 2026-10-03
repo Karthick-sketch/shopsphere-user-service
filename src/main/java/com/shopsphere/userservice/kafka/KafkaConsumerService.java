@@ -16,6 +16,6 @@ public class KafkaConsumerService {
     groupId = "${kafka.consumer.group-id}"
   )
   public void handleUserCreatedEvent(UserCreatedEvent event) {
-    userService.createUser(event);
+    userService.createUser(event.getData());
   }
 }

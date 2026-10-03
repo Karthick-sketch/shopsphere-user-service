@@ -1,9 +1,9 @@
 package com.shopsphere.userservice.service;
 
 import com.shopsphere.userservice.dto.ShippingDetails;
+import com.shopsphere.userservice.dto.UserCreatedData;
 import com.shopsphere.userservice.entity.User;
 import com.shopsphere.userservice.exception.UserNotFoundException;
-import com.shopsphere.userservice.kafka.UserCreatedEvent;
 import com.shopsphere.userservice.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -55,12 +55,12 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public void createUser(UserCreatedEvent event) {
+  public void createUser(UserCreatedData data) {
     create(
       User.builder()
-        .authUserId(event.getAuthUserId())
-        .name(event.getName())
-        .email(event.getEmail())
+        .authUserId(data.getUserId())
+        .name(data.getName())
+        .email(data.getEmail())
         .build()
     );
   }

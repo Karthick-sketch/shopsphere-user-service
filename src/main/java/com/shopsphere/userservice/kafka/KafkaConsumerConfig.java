@@ -27,7 +27,10 @@ public class KafkaConsumerConfig {
     Map<String, Object> props = new HashMap<>();
     props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
     props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-    props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+    props.put(
+      ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,
+      KafkaConstants.AUTO_OFFSET_RESET_EARLIEST
+    );
     props.put(
       ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS,
       StringDeserializer.class
@@ -39,7 +42,7 @@ public class KafkaConsumerConfig {
 
     JacksonJsonDeserializer<UserCreatedEvent> valueDeserializer =
       new JacksonJsonDeserializer<>(UserCreatedEvent.class);
-    valueDeserializer.addTrustedPackages("*");
+    valueDeserializer.addTrustedPackages(KafkaConstants.TRUST_ALL_PACKAGES);
     valueDeserializer.setUseTypeHeaders(false);
 
     return new DefaultKafkaConsumerFactory<>(
